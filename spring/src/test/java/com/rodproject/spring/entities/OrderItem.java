@@ -3,6 +3,7 @@ package com.rodproject.spring.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rodproject.spring.entities.pk.OrderItemPK;
 
 import jakarta.persistence.EmbeddedId;
@@ -15,7 +16,7 @@ public class OrderItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@EmbeddedId
-	private OrderItemPK id;
+	private OrderItemPK id = new OrderItemPK();
 	
 	private Integer quantity;
 	private double price;
@@ -23,14 +24,15 @@ public class OrderItem implements Serializable {
 	public OrderItem() {
 	}
 
-	public OrderItem(Order order, Product prodcut, Integer quantity, double price) {
+	public OrderItem(Order order, Product product, Integer quantity, double price) {
 		super();
 		id.setOrder(order);
-		id.setProduct(prodcut);
+		id.setProduct(product);
 		this.quantity = quantity;
 		this.price = price;
 	}
 	
+	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
 	}
@@ -43,7 +45,7 @@ public class OrderItem implements Serializable {
 		return id.getProduct();
 	}
 	
-	public void setProdcut(Product product) {
+	public void setProduct(Product product) {
 		id.setProduct(product);
 	}
 
